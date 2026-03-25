@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.datasets import imdb
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.models import load_model
+import re
 
 # Load the IMDB dataset word index
 word_index = imdb.get_word_index()
@@ -19,8 +20,10 @@ def decode_review(encoded_review):
 
 # Function to preprocess user input
 def preprocess_text(text):
+    text = re.sub(r"[^a-zA-Z0-9\s]", "", text.lower())
     words = text.lower().split()
-    encoded_review = [word_index.get(word, 2) + 3 for word in words]
+    encoded_review = [word_index.get(word,2) + 3 if word in word_index and word_index[word] < 10000 else 2
+        for word in words]
     padded_review = sequence.pad_sequences([encoded_review], maxlen=500)
     return padded_review
 
