@@ -4,6 +4,6 @@ numpy
 scikit-learn
 tensorboard
 matplotlib
-streamlit
+streamlit==1.46.0
 scikeras
 protobuf==3.20.3
